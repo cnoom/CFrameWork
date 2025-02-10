@@ -1,11 +1,15 @@
 {
-  "name": "cnoom.unity.cfreamwork",
-  "displayName": "CFreamWork",
+  "name": "cnoom.unity.cframework",
+  "displayName": "CFrameWork",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "com.unity.addressables": "^2.2.2" 
   },
   "private": true
 }
