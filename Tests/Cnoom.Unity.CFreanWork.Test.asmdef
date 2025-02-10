@@ -1,0 +1,16 @@
+{
+    "name": "Cnoom.Unity.CFreanWork.Test",
+    "rootNamespace": "",
+    "references": [
+        "GUID:30b72220ecde9c34285e3050a5a66bd5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
