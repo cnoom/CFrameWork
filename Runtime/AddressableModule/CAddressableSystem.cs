@@ -5,6 +5,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using SingletonModule;
 
@@ -43,7 +44,7 @@ namespace AddressableModule
             try
             {
                 // 开始异步加载资源
-                var handle = Addressables.LoadAssetAsync<T>(assetAddress);
+                AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetAddress);
                 while (!handle.IsDone)
                 {
                     progressCallback?.Invoke(handle.PercentComplete);
@@ -71,6 +72,44 @@ namespace AddressableModule
                 // 加载异常，记录异常日志
                 LogLoadException("资源加载", assetAddress, e);
                 return default;
+            }
+        }
+
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
+        /// <param name="assetAddress">资源地址</param>
+        /// <param name="onComplete">完成回调</param>
+        /// <typeparam name="T">资源类型</typeparam>
+        public void LoadAssetAsync<T>(string assetAddress,[NotNull]Action<T> onComplete)
+        {
+            if(TryGetCachedAsset(assetAddress, out var cachedData))
+            {
+                IncrementReferenceCount(cachedData);
+                onComplete((T)cachedData.asset);
+                return;
+            }
+            try
+            {
+                // 开始异步加载资源
+                AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetAddress);
+                handle.Completed += operationHandle =>
+                {
+                    onComplete.Invoke(operationHandle.Result);
+                };
+                handle.Completed += _ =>
+                {
+                    EnsureAssetCacheCapacity();
+                    // 创建新的资源引用数据
+                    var newData = CreateAssetReferenceData(handle);
+                    // 将新数据添加到缓存中
+                    _assetCache.Add(assetAddress, newData);
+                };
+            }
+            catch (Exception e)
+            {
+                // 加载异常，记录异常日志
+                LogLoadException("资源加载", assetAddress, e);
             }
         }
 

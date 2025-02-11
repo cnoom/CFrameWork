@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
-namespace Editor
+namespace Editor.CFrameWork
 {
     public static class CFrameWorkConfig
     {
-        public static readonly string DataFilePath = Application.dataPath + "/CFrameWorkData";
+        public static readonly string DataFilePath = Path.Combine(Application.dataPath, "CFrameWorkData");
     }
 }

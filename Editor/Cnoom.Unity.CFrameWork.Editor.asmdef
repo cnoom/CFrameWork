@@ -1,11 +1,13 @@
 {
     "name": "Cnoom.Unity.CFreamWork.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "Editor.CFrameWork",
     "references": [
         "GUID:69448af7b92c7f342b298e06a37122aa",
         "GUID:18abe0efda2b648499837f682e43ab1a"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
