@@ -2,7 +2,7 @@
 using System.Reflection;
 using UnityEngine;
 
-namespace SingletonModel
+namespace SingletonModule
 {
     internal class SingletonCreator
     {

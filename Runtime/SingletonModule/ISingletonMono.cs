@@ -1,5 +1,5 @@
 ﻿
-namespace SingletonModel
+namespace SingletonModule
 {
     public interface ISingletonMono : ISingleton
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Debug = System.Diagnostics.Debug;
 
-namespace SingletonModel
+namespace SingletonModule
 {
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour, ISingletonMono where T : SingletonMonoBehaviour<T>
     {
@@ -56,12 +56,8 @@ namespace SingletonModel
         {
             if(instance == this)
             {
-                Dispose();
+                instance = null;
             }
-        }
-        public virtual void Dispose()
-        {
-            instance = null;
         }
 
         public virtual void OnSingletonInit()

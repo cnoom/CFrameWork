@@ -1,6 +1,4 @@
-﻿using MessageModel;
-
-namespace AutoModel
+﻿namespace AutoModule
 {
     ///  自动执行函数使用方式
     ///  自动执行的方法通过注册消息来执行：

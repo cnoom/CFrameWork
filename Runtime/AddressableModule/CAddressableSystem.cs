@@ -6,11 +6,11 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SingletonModel;
+using SingletonModule;
 
-namespace AddressableModel
+namespace AddressableModule
 {
-    public class AddressableManager : SingletonMonoBehaviour<AddressableManager>
+    public class CAddressableSystem : SingletonMonoBehaviour<CAddressableSystem>
     {
         public override bool onlySingleScene => false;
 
@@ -191,7 +191,14 @@ namespace AddressableModel
             {
                 tasks.Add(LoadSceneAsync(address, loadMode));
             }
-            await Task.WhenAll(tasks);
+            try
+            {
+                await Task.WhenAll(tasks);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Preload scenes failed: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -267,12 +274,27 @@ namespace AddressableModel
 
         private void ReleaseAssetHandle(AsyncOperationHandle handle)
         {
-            Addressables.Release(handle);
+            try
+            {
+                Addressables.Release(handle);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Release asset failed: {ex.Message}");
+                throw;
+            }
         }
 
         private async Task UnloadSceneHandleAsync(AsyncOperationHandle<SceneInstance> handle)
         {
-            await Addressables.UnloadSceneAsync(handle).Task;
+            try
+            {
+                await Addressables.UnloadSceneAsync(handle).Task;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Unload scene failed: {ex.Message}");
+            }
         }
 
         private void EnsureAssetCacheCapacity()

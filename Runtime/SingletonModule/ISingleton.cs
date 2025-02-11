@@ -1,6 +1,6 @@
 using System;
 
-namespace SingletonModel
+namespace SingletonModule
 {
     /// <summary>
     ///     单例接口

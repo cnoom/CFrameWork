@@ -1,4 +1,4 @@
-namespace SingletonModel
+namespace SingletonModule
 {
     public class Singleton<T> : ISingleton where T : Singleton<T>
     {
@@ -20,12 +20,6 @@ namespace SingletonModel
 
                 return instance;
             }
-        }
-        
-        public void Dispose()
-        {
-
-            instance = default;
         }
 
         public virtual void OnSingletonInit()

@@ -2,14 +2,15 @@
   "name": "cnoom.unity.cframework",
   "displayName": "CFrameWork",
   "version": "0.0.1",
-  "description": "",
+  "description": "CFrameWork 是一个用于 Unity 项目的框架，提供了地址资源管理、单例模式、消息处理中心等功能，帮助开发者更高效地开发 Unity 项目。",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "private": true,
   "dependencies": {
-    "com.unity.addressables": "^2.2.2" 
-  },
-  "private": true
+    "com.unity.addressables": "^2.2.2"
+  }
 }

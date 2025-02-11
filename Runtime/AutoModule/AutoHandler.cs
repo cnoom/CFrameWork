@@ -1,6 +1,4 @@
-﻿using MessageModel;
-
-namespace AutoModel
+﻿namespace AutoModule
 {
     /// <summary>
     /// 自动生成的消息处理类
@@ -10,7 +8,7 @@ namespace AutoModel
     {
         void Handle(T msg);
     }
-    
+
     public abstract class AutoHandler<T> : IAutoHandler<T>
     {
         public void Handle(T msg)
