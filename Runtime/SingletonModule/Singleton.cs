@@ -2,7 +2,13 @@ namespace SingletonModule
 {
     public class Singleton<T> : ISingleton where T : Singleton<T>
     {
-        
+
+        private static T instance;
+        /// <summary>
+        ///     线程锁
+        /// </summary>
+        private static readonly object singletonLock = new object();
+
         public static T Instance
         {
             get
@@ -25,12 +31,5 @@ namespace SingletonModule
         public virtual void OnSingletonInit()
         {
         }
-
-        private static T instance;
-        /// <summary>
-        ///     线程锁
-        /// </summary>
-        private static readonly object singletonLock = new object();
-
     }
 }

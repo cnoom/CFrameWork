@@ -18,7 +18,7 @@ namespace ExceptionCaptureModule
                 object current;
                 try
                 {
-                    if (!coroutine.MoveNext())
+                    if(!coroutine.MoveNext())
                     {
                         break;
                     }

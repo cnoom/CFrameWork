@@ -1,19 +1,19 @@
 {
-    "name": "Cnoom.Unity.CFreamWork.Editor",
-    "rootNamespace": "Editor.CFrameWork",
-    "references": [
-        "GUID:69448af7b92c7f342b298e06a37122aa",
-        "GUID:18abe0efda2b648499837f682e43ab1a"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Cnoom.Unity.CFreamWork.Editor",
+  "rootNamespace": "",
+  "references": [
+    "GUID:69448af7b92c7f342b298e06a37122aa",
+    "GUID:18abe0efda2b648499837f682e43ab1a"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

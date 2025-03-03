@@ -7,26 +7,22 @@ namespace SingletonModule
     {
         private static T instance;
         private static readonly object Lock = new object();
-        public abstract bool onlySingleScene { get; }
         private ISingletonMono singletonMonoImplementation;
-
+        private static bool isQuitGame;
         public static T Instance
         {
             get
             {
-                if(instance == null)
+                if(isQuitGame) return null;
+                if(instance) return instance;
+                lock (Lock)
                 {
-                    lock (Lock)
+                    if(instance) return instance;
+                    instance = FindAnyObjectByType<T>();
+                    Application.quitting += () => isQuitGame = true;
+                    if(!instance)
                     {
-                        if(instance == null)
-                        {
-                            instance = FindAnyObjectByType<T>();
-
-                            if(instance == null)
-                            {
-                                instance = SingletonCreator.CreateMonoSingleton<T>();
-                            }
-                        }
+                        instance = SingletonCreator.CreateMonoSingleton<T>();
                     }
                 }
 
@@ -59,6 +55,7 @@ namespace SingletonModule
                 instance = null;
             }
         }
+        public abstract bool onlySingleScene { get; }
 
         public virtual void OnSingletonInit()
         {

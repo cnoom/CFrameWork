@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using LogModule;
 using SingletonModule;
 using UnityEngine;
 
@@ -7,23 +7,18 @@ namespace ExceptionCaptureModule
 {
     public class CExceptionSystem : SingletonMonoBehaviour<CExceptionSystem>
     {
-        public override bool onlySingleScene => false;
         private Action<Exception, string> exceptionHandler;
         private Action<string, string> logHandler;
+        public override bool onlySingleScene => false;
         public override void OnSingletonInit()
         {
             Application.logMessageReceived += HandleUnityLog;
             AppDomain.CurrentDomain.UnhandledException += OnHandleException;
         }
 
-        public void Init()
-        {
-            
-        }
-
         private void OnHandleException(object sender, UnhandledExceptionEventArgs e)
         {
-            Debug.LogError("异常!" + e.ExceptionObject);
+            this.LogError("异常!" + e.ExceptionObject);
         }
 
         private void HandleUnityLog(string condition, string stacktrace, LogType type)
@@ -56,13 +51,13 @@ namespace ExceptionCaptureModule
 
         private void HandleException(string condition, string stackTrace, string source)
         {
-            Debug.LogError(source + condition + "\n" + stackTrace);
+            this.LogError(source + condition + "\n" + stackTrace);
             logHandler?.Invoke(condition, stackTrace);
         }
 
         public void HandleException(Exception exception, string source)
         {
-            Debug.LogError("异常!" + exception.Message);
+            this.LogError("异常!" + exception.Message);
             exceptionHandler?.Invoke(exception, source);
         }
     }
