@@ -57,7 +57,6 @@ namespace Base
                 GameModule module = this.GetModule(field.FieldType);
                 if(!module) throw new MissingMemberException($"未找到依赖模块: {field.FieldType.Name}");
                 field.SetValue(this, module);
-                return;
             }
         }
 

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Base;
-using SingletonModule;
+using Base.Attributes;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace AddressableService
 {
+    [AutoRegisterService(AutoRegisterServiceAttribute.AssetsServiceKey)]
     public partial class AssetsService : MonoBehaviour
     {
         // 资源追踪数据结构

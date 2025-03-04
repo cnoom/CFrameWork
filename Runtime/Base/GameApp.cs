@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AddressableService;
+using Base.Attributes;
+using LogModule;
 using MessageModule;
 using SingletonModule;
 using UnityEngine;
@@ -69,6 +73,15 @@ namespace Base
 
         #endregion
 
+        protected override void Awake()
+        {
+            if(!Application.isPlaying) return;
+            base.Awake();
+            InitServices();
+        }
+
+        #region 服务模块操作
+
         public void RegisterService(Type serviceType, object implementation)
         {
             if(services.ContainsKey(serviceType))
@@ -87,20 +100,49 @@ namespace Base
                 : null;
         }
 
-        protected override void Awake()
-        {
-            if(!Application.isPlaying) return;
-            base.Awake();
-            InitServices();
-        }
-
         protected virtual void InitServices()
         {
-            GameObject assetsServiceObj = new GameObject("AssetsService");
-            DontDestroyOnLoad(assetsServiceObj);
-            AssetsService assetsService = assetsServiceObj.AddComponent<AssetsService>();
-            RegisterService(typeof(AssetsService), assetsService);
+            GameObject autoRegisterServiceObject = new GameObject("AutoRegisterService");
+            autoRegisterServiceObject.transform.SetParent(transform);
+            Dictionary<string, Type> servicesDict = new Dictionary<string, Type>();
+
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assemblies)
+            {
+                foreach (Type type in assembly.GetTypes().Where(t => t.GetCustomAttribute<AutoRegisterServiceAttribute>() != null))
+                {
+                    TrySetAutoService(servicesDict, type);
+                }
+            }
+            
+            foreach ((string serviceName, Type type) in servicesDict)
+            {
+                GameObject serviceObject = new GameObject(serviceName);
+                serviceObject.transform.SetParent(autoRegisterServiceObject.transform);
+                RegisterService(type, serviceObject.AddComponent(type));
+            }
         }
+
+        private void TrySetAutoService(Dictionary<string, Type> dict, Type type)
+        {
+            if(!typeof(MonoBehaviour).IsAssignableFrom(type))
+            {
+                this.LogError($"类型 {type.Name} 未继承 MonoBehaviour，无法自动注册!");
+                return;
+            }
+            AutoRegisterServiceAttribute newAttribute = type.GetCustomAttribute<AutoRegisterServiceAttribute>();
+            if(dict.TryAdd(newAttribute.ServiceName, type))
+            {
+                return;
+            }
+            if(newAttribute.IsSubstitute)
+            {
+                dict[newAttribute.ServiceName] = type;
+            }
+        }
+
+        #endregion
+
         protected new virtual void OnDestroy()
         {
             foreach (GameModule module in modules.Values)
