@@ -1,16 +1,15 @@
 ﻿using System;
 using LogModule;
-using SingletonModule;
 using UnityEngine;
 
 namespace ExceptionCaptureModule
 {
-    public class CExceptionSystem : SingletonMonoBehaviour<CExceptionSystem>
+    public class CExceptionSystem : MonoBehaviour
     {
         private Action<Exception, string> exceptionHandler;
         private Action<string, string> logHandler;
-        public override bool onlySingleScene => false;
-        public override void OnSingletonInit()
+
+        private void Start()
         {
             Application.logMessageReceived += HandleUnityLog;
             AppDomain.CurrentDomain.UnhandledException += OnHandleException;

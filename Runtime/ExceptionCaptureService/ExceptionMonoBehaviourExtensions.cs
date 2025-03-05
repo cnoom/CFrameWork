@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Base;
 using UnityEngine;
 
 namespace ExceptionCaptureModule
@@ -26,7 +27,7 @@ namespace ExceptionCaptureModule
                 }
                 catch (Exception ex)
                 {
-                    CExceptionSystem.Instance.HandleException(ex, coroutine.ToString());
+                    GameApp.Instance.GetService<CExceptionSystem>().HandleException(ex, coroutine.ToString());
                     break;
                 }
                 yield return current;

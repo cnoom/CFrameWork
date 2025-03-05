@@ -20,7 +20,8 @@ namespace AddressableService
         {
             if (string.IsNullOrEmpty(key))
             {
-                Debug.LogError("Invalid asset key");
+                // 修改后
+                this.LogError("资源键无效");
                 return default;
             }
             try
@@ -39,7 +40,9 @@ namespace AddressableService
                     referenceCount[location.PrimaryKey]++;
                     return (T)assetHandle.Result;
                 }
-
+                #if UNITY_EDITOR
+                this.LogWarning("[性能警告] 主线程同步加载可能造成卡顿，建议使用异步加载方法");
+                #endif
                 AsyncOperationHandle<T> operation = Addressables.LoadAssetAsync<T>(location);
                 TrackHandle(location.PrimaryKey, operation);
                 T result = operation.WaitForCompletion();
@@ -103,7 +106,8 @@ namespace AddressableService
             }
             else
             {
-                this.LogError($"Failed to load asset: {key} [{operation.OperationException}]");
+                this.LogError($"资源加载失败: {key} [{operation.OperationException}]");
+                Addressables.Release(operation); // 新增释放操作
             }
         }
 
